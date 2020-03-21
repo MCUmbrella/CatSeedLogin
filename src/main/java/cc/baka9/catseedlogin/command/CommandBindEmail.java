@@ -110,7 +110,7 @@ public class CommandBindEmail implements CommandExecutor {
                     }
 
                 } else {
-                    sender.sendMessage(timeoutOrNotSet);
+                    sender.sendMessage(bind_timeoutOrNotSet);
                 }
 
 

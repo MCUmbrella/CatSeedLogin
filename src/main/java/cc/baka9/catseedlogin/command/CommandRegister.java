@@ -34,10 +34,9 @@ public class CommandRegister implements CommandExecutor {
             sender.sendMessage(notSamePasswd);
             return true;
         }
-        if (!Util.passwordIsDifficulty(args[0])) {
-            if(forceStrongPasswdEnabled){
+        if (forceStrongPasswdEnabled && !Util.passwordIsDifficulty(args[0])) {
             sender.sendMessage(forceStrongPasswd);
-            return true;}else {if(debug){CatSeedLogin.instance.getLogger().warning(sender+" used weak password");}}
+            return true;
         }
         if (!Cache.isLoaded) {
             return true;

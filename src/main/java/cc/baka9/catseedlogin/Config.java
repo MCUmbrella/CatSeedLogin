@@ -77,7 +77,7 @@ public class Config {
             debug=config.getBoolean("debug", false);
             forceStrongPasswdEnabled=config.getBoolean("forceStrongPasswd");
             Languages.load();
-            if(debug){CatSeedLogin.instance.getLogger().info("Debug mode enabled.\nSettings load success.\nUsing language file: "+language+"\nLogin world: "+lvname);}
+            if(debug){CatSeedLogin.instance.getLogger().warning("\nDebug mode enabled.\nSettings load success.\nUsing language file: "+language+"\nDefault world: "+lvname+"\nForce strong password: "+forceStrongPasswdEnabled);}
         }
     }
 

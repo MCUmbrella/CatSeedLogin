@@ -74,7 +74,7 @@ public class Languages {
     public static String binded_front="";
     public static String binded_end="";
     public static String wrongVerifyCode="";
-    public static String timeoutOrNotSet="";
+    public static String bind_timeoutOrNotSet="";
     //EMAIL FILE
     public static String bind_subject="";
     public static String bind_code_front ="";
@@ -84,6 +84,20 @@ public class Languages {
     public static String bind_name_end="";
     public static String bind_timeout_front="";
     public static String bind_timeout_end="";
+    public static String reset_subject="";
+    public static String reset_code_front ="";
+    public static String reset_code_end="";
+    public static String reset_name_front="";
+    public static String reset_name_middle="";
+    public static String reset_name_end="";
+    public static String reset_timeout_front="";
+    public static String reset_timeout_end="";
+    //LANG RESETPASS
+    public static String mailNotSet="";
+    public static String resetSuccess="";
+    public static String resetCodeSent_front="";
+    public static String resetCodeSent_end="";
+    public static String reset_timeoutOrNotSet="";
     //LANG END
     public static void load()
     {
@@ -148,8 +162,7 @@ public class Languages {
         binded_front = lang.getString("binded-front");
         binded_end = lang.getString("binded-end");
         wrongVerifyCode = lang.getString("wrongVerifyCode");
-        timeoutOrNotSet = lang.getString("timeoutOrNotSet");
-        //EMAIL FILE
+        bind_timeoutOrNotSet = lang.getString("bind-timeoutOrNotSet");
         bind_subject = lang.getString("bind-subject");
         bind_code_front = lang.getString("bind-code-front");
         bind_code_end = lang.getString("bind-code-end");
@@ -158,6 +171,21 @@ public class Languages {
         bind_name_end = lang.getString("bind-name-end");
         bind_timeout_front = lang.getString("bind-timeout-front");
         bind_timeout_end = lang.getString("bind-timeout-end");
+        reset_subject = lang.getString("reset-subject");
+        reset_code_front = lang.getString("reset-code-front");
+        reset_code_end = lang.getString("reset-code-end");
+        reset_name_front = lang.getString("reset-name-front");
+        reset_name_middle = lang.getString("reset-name-middle");
+        reset_name_end = lang.getString("reset-name-end");
+        reset_timeout_front = lang.getString("reset-timeout-front");
+        reset_timeout_end = lang.getString("reset-timeout-end");
+        mailNotSet = lang.getString("mailNotSet");
+        resetSuccess = lang.getString("resetSuccess");
+        resetCodeSent_front = lang.getString("resetCodeSent-front");
+        resetCodeSent_end = lang.getString("resetCodeSent-end");
+        reset_timeoutOrNotSet = lang.getString("reset-timeoutOrNotSet");
+
+
         if(debug){CatSeedLogin.instance.getLogger().info("Language files loaded.");}
     }
 }

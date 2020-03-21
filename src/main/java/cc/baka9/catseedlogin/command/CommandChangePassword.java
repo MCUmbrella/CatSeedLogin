@@ -43,10 +43,9 @@ public class CommandChangePassword implements CommandExecutor {
             sender.sendMessage(notSamePasswd);
             return true;
         }
-        if (!Util.passwordIsDifficulty(args[1])) {
-            if(forceStrongPasswdEnabled){
+        if (forceStrongPasswdEnabled && !Util.passwordIsDifficulty(args[1])) {
                 sender.sendMessage(forceStrongPasswd);
-                return true;}else {if(debug){CatSeedLogin.instance.getLogger().warning(sender+" used weak password");}}
+                return true;
         }
         if (!Cache.isLoaded) {
             return true;
@@ -62,6 +61,7 @@ public class CommandChangePassword implements CommandExecutor {
                     Player player = Bukkit.getPlayer(((Player) sender).getUniqueId());
                     if (player != null && player.isOnline()) {
                         player.sendMessage(reLog);
+                        if(debug){CatSeedLogin.instance.getLogger().info(sender.getName()+" successfully reset password");}
                         Config.setOfflineLocation(player);
                         player.teleport(Bukkit.getWorld(Config.Settings.spawnWorld).getSpawnLocation());
 

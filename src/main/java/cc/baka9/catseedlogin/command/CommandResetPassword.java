@@ -14,6 +14,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import static cc.baka9.catseedlogin.Config.Settings.debug;
+import static cc.baka9.catseedlogin.Config.Settings.forceStrongPasswdEnabled;
+import static cc.baka9.catseedlogin.Languages.*;
 import java.util.Optional;
 
 public class CommandResetPassword implements CommandExecutor {
@@ -25,37 +28,37 @@ public class CommandResetPassword implements CommandExecutor {
         LoginPlayer lp = Cache.getIgnoreCase(name);
 
         if (lp == null) {
-            sender.sendMessage("§c你还未注册!");
+            sender.sendMessage(notReg);
             return true;
         }
         if (!Config.EmailVerify.Enable) {
-            sender.sendMessage("§c服务器没有开启邮箱功能");
+            sender.sendMessage(mailDisabled);
             return true;
         }
         //command forget
         if (args[0].equalsIgnoreCase("forget")) {
             if (lp.getEmail() == null) {
-                sender.sendMessage("§c没有设置过邮箱，无法使用此功能重设密码");
+                sender.sendMessage(mailNotSet);
             } else {
                 Optional<EmailCode> optionalEmailCode = EmailCode.getByName(name, EmailCode.Type.ResetPassword);
                 if (optionalEmailCode.isPresent()) {
-                    sender.sendMessage("§c已经向 " + optionalEmailCode.get().getEmail() + " 邮箱中发送验证码，请不要重复此操作");
+                    sender.sendMessage(mailSent_front + optionalEmailCode.get().getEmail() + mailSent_end);
                 } else {
                     //20分钟有效期的验证码
                     EmailCode emailCode = EmailCode.create(name, lp.getEmail(), 1000 * 60 * 20, EmailCode.Type.ResetPassword);
-                    sender.sendMessage("§6向邮箱发送验证码中...");
+                    sender.sendMessage(mailSending);
                     Bukkit.getScheduler().runTaskAsynchronously(CatSeedLogin.getInstance(), () -> {
                         try {
-                            Mail.sendMail(emailCode.getEmail(), "重置密码",
-                                    "你的验证码是 <strong>" + emailCode.getCode() + "</strong>" +
-                                            "<br/>在服务器中使用帐号 " + name + " 输入指令<strong>/resetpassword re " + emailCode.getCode() + " 新密码</strong> 来重置新密码" +
-                                            "<br/>此验证码有效期为 " + (emailCode.getDurability() / (1000 * 60)) + "分钟");
+                            Mail.sendMail(emailCode.getEmail(), reset_subject,
+                                    reset_code_front + emailCode.getCode() + reset_code_end +
+                                            reset_name_front + name + reset_name_middle + emailCode.getCode() + reset_name_end +
+                                            reset_timeout_front + (emailCode.getDurability() / (1000 * 60)) + reset_timeout_end);
                             Bukkit.getScheduler().runTask(CatSeedLogin.getInstance(), () -> {
-                                sender.sendMessage("§6已经向邮箱" + emailCode.getEmail() + "发送了一串绑定验证码，请检查你的邮箱的收件箱");
-                                sender.sendMessage("§c如果未收到，请检查邮箱的垃圾箱!");
+                                sender.sendMessage(resetCodeSent_front + emailCode.getEmail() + resetCodeSent_end);
+                                if(debug){CatSeedLogin.instance.getLogger().info(sender.getName()+" sent a password reset Email request");}
                             });
                         } catch (Exception e) {
-                            Bukkit.getScheduler().runTask(CatSeedLogin.getInstance(), () -> sender.sendMessage("§c发送邮件失败,服务器内部错误!"));
+                            Bukkit.getScheduler().runTask(CatSeedLogin.getInstance(), () -> sender.sendMessage(mailError));
                             e.printStackTrace();
                         }
                     });
@@ -66,7 +69,7 @@ public class CommandResetPassword implements CommandExecutor {
         //command re
         if (args[0].equalsIgnoreCase("re") && args.length > 2) {
             if (lp.getEmail() == null) {
-                sender.sendMessage("§c没有设置过邮箱，无法使用此功能重设密码");
+                sender.sendMessage(mailNotSet);
             } else {
                 Optional<EmailCode> optionalEmailCode = EmailCode.getByName(name, EmailCode.Type.ResetPassword);
                 if (optionalEmailCode.isPresent()) {
@@ -74,11 +77,10 @@ public class CommandResetPassword implements CommandExecutor {
                     String code = args[1], pwd = args[2];
 
                     if (emailCode.getCode().equals(code)) {
-                        if (!Util.passwordIsDifficulty(pwd)) {
-                            sender.sendMessage("§c密码必须是6~16位之间的数字和字母组成");
+                        if (forceStrongPasswdEnabled && !Util.passwordIsDifficulty(pwd)) {
+                            sender.sendMessage(forceStrongPasswd);
                             return true;
                         }
-                        sender.sendMessage("§e密码重置中..");
                         Bukkit.getScheduler().runTaskAsynchronously(CatSeedLogin.getInstance(), () -> {
                             lp.setPassword(pwd);
                             lp.crypt();
@@ -89,30 +91,30 @@ public class CommandResetPassword implements CommandExecutor {
                                     Player p = Bukkit.getPlayer(lp.getName());
                                     if (p != null && p.isOnline()) {
                                         if (LoginPlayerHelper.isLogin(name)) {
-                                            p.sendMessage("§c密码已重置，请重新登陆");
+                                            p.sendMessage(reLog);
                                             p.teleport(Bukkit.getWorld(Config.Settings.spawnWorld).getSpawnLocation());
                                             LoginPlayerHelper.remove(lp);
 
                                         } else {
-                                            p.sendMessage("§c密码已重置");
+                                            p.sendMessage(resetSuccess);
+                                            if(debug){CatSeedLogin.instance.getLogger().info(sender.getName()+" successfully reset password");}
                                         }
                                     }
 
                                 });
                             } catch (Exception e) {
-                                Bukkit.getScheduler().runTask(CatSeedLogin.getInstance(), () -> sender.sendMessage("§c数据库异常!"));
+                                Bukkit.getScheduler().runTask(CatSeedLogin.getInstance(), () -> sender.sendMessage(db_error));
                                 e.printStackTrace();
                             }
 
 
                         });
                     } else {
-                        sender.sendMessage("§c验证码错误!");
+                        sender.sendMessage(wrongVerifyCode);
                     }
 
                 } else {
-                    sender.sendMessage("§c你没有待重置密码的请求操作，或者验证码已过期");
-                    sender.sendMessage("§6如果忘记密码需要重置密码请输入/resetpassword forget");
+                    sender.sendMessage(reset_timeoutOrNotSet);
                 }
             }
             return true;
