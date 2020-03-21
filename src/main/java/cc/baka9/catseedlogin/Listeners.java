@@ -14,7 +14,7 @@ import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.*;
-
+import static cc.baka9.catseedlogin.Languages.*;
 import java.util.regex.Pattern;
 
 public class Listeners implements Listener {
@@ -44,18 +44,18 @@ public class Listeners implements Listener {
     @EventHandler
     public void onPlayerLogin(AsyncPlayerPreLoginEvent event){
         if (!Cache.isLoaded) {
-            event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "服务器还在初始化..");
+            event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, stillStart);
             return;
         }
         String name = event.getName();
         LoginPlayer lp = Cache.getIgnoreCase(name);
         if (lp == null) return;
         if (!lp.getName().equals(name)) {
-            event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "游戏名字母大小写不匹配,请使用游戏名" + lp.getName() + "重新尝试登录");
+            event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, caseSensitiveFront + lp.getName() + caseSensitiveEnd);
             return;
         }
         if (LoginPlayerHelper.isLogin(name)) {
-            event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "玩家 " + lp.getName() + " 已经在线了!");
+            event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, playerOnline_front + lp.getName() + playerOnline_end);
         }
         int count = 0;
         String hostAddress = event.getAddress().getHostAddress();
@@ -65,7 +65,7 @@ public class Listeners implements Listener {
                 count++;
             }
             if (count >= Config.Settings.IpCountLimit) {
-                event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "太多相同ip的账号同时在线!");
+                event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, maxLoginIP);
                 return;
             }
         }
@@ -182,16 +182,16 @@ public class Listeners implements Listener {
         if (Config.Settings.LimitChineseID) {
             if (!name.matches("^[0-9a-zA-Z_]+$")) {
                 event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER,
-                        "请使用由数字,字母和下划线组成的游戏名,才能进入游戏");
+                        IDSpecialSymbolLimit);
             }
         }
         if (name.length() < Config.Settings.MinLengthID) {
             event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER,
-                    "你的游戏名太短了,至少需要 " + Config.Settings.MinLengthID + " 个字符的长度");
+                    minIDLengthLimit_front + Config.Settings.MinLengthID + minIDLengthLimit_front);
         }
         if (name.length() > Config.Settings.MaxLengthID) {
             event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER,
-                    "你的游戏名太长了,最长只能到达 " + Config.Settings.MaxLengthID + " 个字符的长度");
+                    maxIDLengthLimit_front + Config.Settings.MaxLengthID + maxIDLengthLimit_end);
         }
 
     }

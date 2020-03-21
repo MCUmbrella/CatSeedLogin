@@ -1,13 +1,12 @@
 package cc.baka9.catseedlogin.database;
-
 import cc.baka9.catseedlogin.CatSeedLogin;
 import cc.baka9.catseedlogin.object.LoginPlayer;
 import org.bukkit.Bukkit;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import static cc.baka9.catseedlogin.Languages.*;
 
 public class Cache {
     private static final Set<LoginPlayer> SET = new HashSet<>();
@@ -50,10 +49,10 @@ public class Cache {
                     SET.clear();
                     SET.addAll(newCache);
                 }
-                CatSeedLogin.getInstance().getLogger().info("缓存加载 " + SET.size() + " 个数据");
+                CatSeedLogin.getInstance().getLogger().info(db_cache_loaded_front + SET.size() + db_cache_loaded_end);
                 isLoaded = true;
             } catch (Exception e) {
-                CatSeedLogin.getInstance().getLogger().warning("数据库错误,无法更新缓存!");
+                CatSeedLogin.getInstance().getLogger().warning(db_cache_error);
                 e.printStackTrace();
             }
         });
@@ -69,9 +68,9 @@ public class Cache {
                         SET.add(newLp);
                     }
                 }
-                CatSeedLogin.getInstance().getLogger().info("缓存加载 " + SET.size() + " 个数据");
+                CatSeedLogin.getInstance().getLogger().info(db_cache_loaded_front + SET.size() + db_cache_loaded_end);
             } catch (Exception e) {
-                CatSeedLogin.getInstance().getLogger().warning("数据库错误,无法更新缓存!");
+                CatSeedLogin.getInstance().getLogger().warning(db_cache_error);
                 e.printStackTrace();
             }
         });

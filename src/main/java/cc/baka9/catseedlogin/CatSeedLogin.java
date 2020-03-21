@@ -10,14 +10,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import static cc.baka9.catseedlogin.Languages.*;
 
 public class CatSeedLogin extends JavaPlugin {
 
-    private static CatSeedLogin instance;
+    public static CatSeedLogin instance;
     public static SQL sql;
 
     @Override
@@ -32,7 +32,7 @@ public class CatSeedLogin extends JavaPlugin {
 
             Cache.refreshAll();
         } catch (Exception e) {
-            getLogger().warning("§c加载数据库时出错");
+            getLogger().warning(db_error);
             e.printStackTrace();
         }
         //Listeners
@@ -40,15 +40,15 @@ public class CatSeedLogin extends JavaPlugin {
         //Commands
         getServer().getPluginCommand("login").setExecutor(new CommandLogin());
         getServer().getPluginCommand("login").setTabCompleter((commandSender, command, s, args)
-                -> args.length == 1 ? Collections.singletonList("密码") : new ArrayList<>(0));
+                -> args.length == 1 ? Collections.singletonList(login_usage) : new ArrayList<>(0));
 
         getServer().getPluginCommand("register").setExecutor(new CommandRegister());
         getServer().getPluginCommand("register").setTabCompleter((commandSender, command, s, args)
-                -> args.length == 1 ? Collections.singletonList("密码 重复密码") : new ArrayList<>(0));
+                -> args.length == 1 ? Collections.singletonList(reg_usage) : new ArrayList<>(0));
 
         getServer().getPluginCommand("changepassword").setExecutor(new CommandChangePassword());
         getServer().getPluginCommand("changepassword").setTabCompleter((commandSender, command, s, args)
-                -> args.length == 1 ? Collections.singletonList("旧密码 新密码 重复新密码") : new ArrayList<>(0));
+                -> args.length == 1 ? Collections.singletonList(changepass_usage) : new ArrayList<>(0));
 
         getServer().getPluginCommand("adminsetpassword").setExecutor(new CommandAdminSetPassword());
 
@@ -56,14 +56,14 @@ public class CatSeedLogin extends JavaPlugin {
         bindemail.setExecutor(new CommandBindEmail());
         bindemail.setTabCompleter((commandSender, command, s, args) -> {
             if (args.length == 1) {
-                return Arrays.asList("set 需要绑定的邮箱", "verify 邮箱验证码");
+                return Arrays.asList(bindmail_set, bindmail_verify);
             }
             if (args.length == 2) {
                 if (args[0].equals("set")) {
-                    return Collections.singletonList("需要绑定的邮箱");
+                    return Collections.singletonList(bindmail_set_usage);
                 }
                 if (args[0].equals("verify")) {
-                    return Collections.singletonList("邮箱获取的验证码");
+                    return Collections.singletonList(bindmail_verify_usage);
                 }
             }
             return Collections.emptyList();
@@ -72,14 +72,14 @@ public class CatSeedLogin extends JavaPlugin {
         resetpassword.setExecutor(new CommandResetPassword());
         resetpassword.setTabCompleter((commandSender, command, s, args) -> {
             if (args.length == 1) {
-                return Arrays.asList("forget", "re 验证码 新密码");
+                return Arrays.asList("forget", resetpass_re);
             }
             if (args[0].equals("re")) {
                 if (args.length == 2) {
-                    return Collections.singletonList("验证码 新密码");
+                    return Collections.singletonList(resetpass_re_usage);
                 }
                 if (args.length == 3) {
-                    return Collections.singletonList("新密码");
+                    return Collections.singletonList(resetpass_re_newpass);
                 }
             }
             return Collections.emptyList();
@@ -88,7 +88,7 @@ public class CatSeedLogin extends JavaPlugin {
         catseedlogin.setExecutor(new CommandCatSeedLogin());
         catseedlogin.setTabCompleter((commandSender, command, s, args) -> {
             if (args.length == 1) {
-                return Collections.singletonList("reload 重载配置文件");
+                return Collections.singletonList(reload);
             }
             return Collections.emptyList();
         });
@@ -100,12 +100,10 @@ public class CatSeedLogin extends JavaPlugin {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (!LoginPlayerHelper.isLogin(player.getName())) {
                     if (!LoginPlayerHelper.isRegister(player.getName())) {
-                        player.sendMessage("§a你还没有注册,请输入§e/reg 密码 重复密码 §a来注册");
+                        player.sendMessage(plsreg);
                         continue;
                     }
-                    player.sendMessage("§a请输入§e/l 密码 §a来登录游戏");
-                    player.sendMessage("§b如果你从未注册,请换个游戏名!");
-
+                    player.sendMessage(plslog);
                 }
             }
         }, 0, 20 * 5);
@@ -123,7 +121,7 @@ public class CatSeedLogin extends JavaPlugin {
         try {
             sql.getConnection().close();
         } catch (Exception e) {
-            getLogger().warning("获取数据库连接时出错");
+            getLogger().warning(db_error);
             e.printStackTrace();
         }
         super.onDisable();

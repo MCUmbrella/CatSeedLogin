@@ -8,6 +8,7 @@ import cc.baka9.catseedlogin.database.SQLite;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import static cc.baka9.catseedlogin.Languages.*;
 
 public class CommandCatSeedLogin implements CommandExecutor {
     @Override
@@ -21,10 +22,10 @@ public class CommandCatSeedLogin implements CommandExecutor {
 
                 Cache.refreshAll();
             } catch (Exception e) {
-                CatSeedLogin.getInstance().getLogger().warning("§c加载数据库时出错");
+                CatSeedLogin.getInstance().getLogger().warning(db_error);
                 e.printStackTrace();
             }
-            commandSender.sendMessage("配置已重载!");
+            commandSender.sendMessage(reloaded);
             return true;
         }
         return false;

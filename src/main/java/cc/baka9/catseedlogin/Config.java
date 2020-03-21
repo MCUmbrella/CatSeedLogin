@@ -6,10 +6,10 @@ import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-
-import java.io.File;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 public class Config {
     private static CatSeedLogin plugin = CatSeedLogin.getInstance();
@@ -24,6 +24,8 @@ public class Config {
         public static String Password;
 
         public static void load(){
+
+
             FileConfiguration config = getConfig("sql.yml");
             MySQL.Enable = config.getBoolean("MySQL.Enable");
             MySQL.Host = config.getString("MySQL.Host");
@@ -35,6 +37,7 @@ public class Config {
     }
 
     public static class Settings {
+        //SETTINGS START
         public static int IpCountLimit;
         public static String spawnWorld;
         public static boolean LimitChineseID;
@@ -43,17 +46,38 @@ public class Config {
         public static boolean BeforeLoginNoDamage;
         public static long ReenterInterval;
         public static boolean AfterLoginBack;
+        public static boolean debug=false;
+        public static String language="";
+        public static boolean forceStrongPasswdEnabled=true;
+        //SETTINGS END
 
         public static void load(){
+            Properties properties = new Properties();
+            String lvname="";
+            boolean lvnameinited = false;
+            try {
+                BufferedReader bufferedReader = new BufferedReader(new FileReader("server.properties"));
+                properties.load(bufferedReader);
+                lvname=properties.getProperty("level-name");
+                lvnameinited=true;
+            } catch (Exception ex) {
+                CatSeedLogin.instance.getLogger().warning("Exception caught in reading server.properties: "+ex.toString());
+                ex.printStackTrace();
+            }
             FileConfiguration config = getConfig("settings.yml");
-            IpCountLimit = config.getInt("IpCountLimit");
-            spawnWorld = config.getString("SpawnWorld", "world");
-            LimitChineseID = config.getBoolean("LimitChineseID", true);
-            MinLengthID = config.getInt("MinLengthID", 2);
-            MaxLengthID = config.getInt("MaxLengthID", 15);
-            BeforeLoginNoDamage = config.getBoolean("BeforeLoginNoDamage");
-            ReenterInterval = config.getLong("ReenterInterval");
-            AfterLoginBack = config.getBoolean("AfterLoginBack", true);
+            IpCountLimit = config.getInt("maxLogPerIP", 1);
+            if(lvnameinited){spawnWorld = config.getString("spawnWorld", lvname);}else {spawnWorld = config.getString("spawnWorld", "world");}
+            LimitChineseID = config.getBoolean("specialSymbolsIDLimit", true);
+            MinLengthID = config.getInt("IDMinLength", 3);
+            MaxLengthID = config.getInt("IDMaxLength", 16);
+            BeforeLoginNoDamage = config.getBoolean("noDamageBeforeLogin", true);
+            ReenterInterval = config.getLong("loginTimeout", 60);
+            AfterLoginBack = config.getBoolean("backAfterLogin", true);
+            language=config.getString("languageFile", "lang_zhCN.yml");
+            debug=config.getBoolean("debug", false);
+            forceStrongPasswdEnabled=config.getBoolean("forceStrongPasswd");
+            Languages.load();
+            if(debug){CatSeedLogin.instance.getLogger().info("Debug mode enabled.\nSettings load success.\nUsing language file: "+language+"\nLogin world: "+lvname);}
         }
     }
 
