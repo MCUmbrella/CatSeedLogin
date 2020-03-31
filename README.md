@@ -17,7 +17,8 @@ authme配置文件对一些经验不足的服主配置起来极其麻烦，甚�
 *  进入游戏时游戏名的限制（由数字,字母和下划线组成 “可配置”长度的游戏名才能进入）
 *  绑定邮箱，邮箱重置密码功能
 ## 下载
-* https://www.mcbbs.net/thread-847859-1-1.html
+* 原版：https://www.mcbbs.net/thread-847859-1-1.html
+* 改版：https://github.com/MCUmbrella/CatSeedLogin/releases
 ## 使用方式
 * 下载到的文件放入plugins文件夹重启服务器
 ## 指令
@@ -52,23 +53,32 @@ authme配置文件对一些经验不足的服主配置起来极其麻烦，甚�
 * catseedlogin.command.adminsetpassword 管理员强制设置玩家密码指令使用权限/adminsetpassword
 * catseedlogin.command.catseedlogin 管理员重载配置文件指令使用权限/catseedlogin reload
 ## 配置文件
+### config.yml
+用于存储玩家数据，不建议手动更改<br/>
 ### settings.yml
+### 本分支的settings.yml与CatSeed原版的不兼容，请删除旧settings.yml后重新生成
 > \#相同ip限制<br/>
-IpCountLimit: 2<br/>
+maxLogPerIP: 1<br/>
 \#登录时在哪个世界的出生点<br/>
-SpawnWorld: "world"<br/>
-\#是否限制中文ID<br/>
-LimitChineseID: true<br/>
+spawnWorld: "world"<br/>
+\#是否禁止中文及其它非英文字母、数字、下划线组成的ID<br/>
+specialSymbolsIDLimit: true<br/>
 \#游戏ID最小长度<br/>
-MinLengthID: 2<br/>
+IDMinLength: 3<br/>
 \#游戏ID最大长度<br/>
-MaxLengthID: 15<br/>
+IDMaxLength: 16<br/>
 \#登陆之前不受到伤害<br/>
-BeforeLoginNoDamage: true<br/>
+noDamageBeforeLogin: true<br/>
 \#离开服务器重新进入的间隔限制 单位：tick（如果设置3秒则是60）<br/>
-ReenterInterval: 60<br/>
+loginTimeout: 60<br/>
 \#登陆之后是否返回退出地点<br/>
-AfterLoginBack: true<br/>
+backAfterLogin: true<br/>
+\#语言文件——内置lang_zhCN.yml（简体中文）和lang_enUS.yml（美国英语）<br/>
+languageFile: "lang_zhCN.yml"<br/>
+\#调试选项，在控制台输出更多信息
+debug: false
+\#强制使用高强度密码
+forceStrongPasswd: true
 ### sql.yml
 如果不使用mysql数据库储存，就请无视此配置<br/>
 > MySQL:<br/>
