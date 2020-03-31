@@ -76,9 +76,9 @@ loginTimeout: 60<br/>
 backAfterLogin: true<br/>
 \#语言文件——内置lang_zhCN.yml（简体中文）和lang_enUS.yml（美国英语）<br/>
 languageFile: "lang_zhCN.yml"<br/>
-\#调试选项，在控制台输出更多信息
+\#调试选项，在控制台输出更多信息<br/>
 debug: false<br/>
-\#强制使用高强度密码
+\#强制使用高强度密码<br/>
 forceStrongPasswd: true<br/>
 ### sql.yml
 如果不使用mysql数据库储存，就请无视此配置<br/>
