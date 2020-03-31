@@ -53,6 +53,7 @@ authme配置文件对一些经验不足的服主配置起来极其麻烦，甚�
 * catseedlogin.command.adminsetpassword 管理员强制设置玩家密码指令使用权限/adminsetpassword
 * catseedlogin.command.catseedlogin 管理员重载配置文件指令使用权限/catseedlogin reload
 ## 配置文件
+### 原版CatSeed配置文件移步https://github.com/CatSeed/CatSeedLogin
 ### config.yml
 用于存储玩家数据，不建议手动更改<br/>
 ### settings.yml
@@ -76,9 +77,9 @@ backAfterLogin: true<br/>
 \#语言文件——内置lang_zhCN.yml（简体中文）和lang_enUS.yml（美国英语）<br/>
 languageFile: "lang_zhCN.yml"<br/>
 \#调试选项，在控制台输出更多信息
-debug: false
+debug: false<br/>
 \#强制使用高强度密码
-forceStrongPasswd: true
+forceStrongPasswd: true<br/>
 ### sql.yml
 如果不使用mysql数据库储存，就请无视此配置<br/>
 > MySQL:<br/>
