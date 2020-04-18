@@ -23,6 +23,7 @@ public class Listeners implements Listener {
             , Pattern.compile("/(?i)reg(ister)?(\\z| .*)")
             , Pattern.compile("/(?i)resetpassword?(\\z| .*)")
             , Pattern.compile("/(?i)repw?(\\z| .*)")
+            , Pattern.compile("/(?i)unreg(ister)?(\\z| .*)")
     };
 
     private boolean playerIsCitizensNPC(Player p){

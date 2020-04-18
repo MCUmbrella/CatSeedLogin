@@ -2,29 +2,24 @@ package cc.baka9.catseedlogin.command;
 
 import cc.baka9.catseedlogin.CatSeedLogin;
 import cc.baka9.catseedlogin.Config;
-import cc.baka9.catseedlogin.util.Crypt;
-import cc.baka9.catseedlogin.util.Util;
 import cc.baka9.catseedlogin.database.Cache;
+import cc.baka9.catseedlogin.event.CatSeedPlayerRegisterEvent;
 import cc.baka9.catseedlogin.object.LoginPlayer;
 import cc.baka9.catseedlogin.object.LoginPlayerHelper;
+import cc.baka9.catseedlogin.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-
 import static cc.baka9.catseedlogin.Config.Settings.debug;
-import static cc.baka9.catseedlogin.Config.Settings.forceStrongPasswdEnabled;
 import static cc.baka9.catseedlogin.Languages.*;
-import java.util.Objects;
 
-public class CommandChangePassword implements CommandExecutor {
+public class CommandUnregister implements CommandExecutor {
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String lable, String[] args){
-        if (args.length != 3 || !(sender instanceof Player)) {
-            return false;
-        }
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (args.length != 2) return false;
         if(sender instanceof ConsoleCommandSender){CatSeedLogin.instance.getLogger().warning(playerOnly);return false;}
         String name = sender.getName();
         LoginPlayer lp = Cache.getIgnoreCase(name);
@@ -36,46 +31,29 @@ public class CommandChangePassword implements CommandExecutor {
             sender.sendMessage(notLogin);
             return true;
         }
-        if (!Objects.equals(Crypt.encrypt(name, args[0]), lp.getPassword().trim())) {
-            sender.sendMessage(wrongOldPasswd);
-            return true;
-
-        }
-        if (!args[1].equals(args[2])) {
+        if (!args[0].equals(args[1])) {
             sender.sendMessage(notSamePasswd);
             return true;
         }
-        if (forceStrongPasswdEnabled && !Util.passwordIsDifficulty(args[1])) {
-                sender.sendMessage(forceStrongPasswd);
-                return true;
-        }
-        if (!Cache.isLoaded) {
-            return true;
-        }
+
         Bukkit.getScheduler().runTaskAsynchronously(CatSeedLogin.getInstance(), () -> {
             try {
-                lp.setPassword(args[1]);
-                lp.crypt();
-                CatSeedLogin.sql.edit(lp);
+                CatSeedLogin.sql.del(lp.getName());
                 LoginPlayerHelper.remove(lp);
-
                 Bukkit.getScheduler().runTask(CatSeedLogin.getInstance(), () -> {
                     Player player = Bukkit.getPlayer(((Player) sender).getUniqueId());
                     if (player != null && player.isOnline()) {
-                        player.sendMessage(reLog);
-                        if(debug){CatSeedLogin.instance.getLogger().info(sender.getName()+" successfully reset password");}
-                        Config.setOfflineLocation(player);
+                        if(debug){CatSeedLogin.instance.getLogger().info(sender.getName()+" unregistered");}
                         player.teleport(Bukkit.getWorld(Config.Settings.spawnWorld).getSpawnLocation());
-
                     }
                 });
-
-
+                Bukkit.getServer().getPlayer(sender.getName()).kickPlayer(unregSuccess);
             } catch (Exception e) {
                 e.printStackTrace();
                 sender.sendMessage(internalError);
             }
         });
-        return true;
+
+        return false;
     }
 }

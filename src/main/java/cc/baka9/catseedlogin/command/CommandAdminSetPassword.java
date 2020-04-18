@@ -24,7 +24,7 @@ public class CommandAdminSetPassword implements CommandExecutor {
         if (!Util.passwordIsDifficulty(pwd)) {
             if(forceStrongPasswdEnabled){
                 sender.sendMessage(forceStrongPasswd);
-                return true;}else {if(debug){CatSeedLogin.instance.getLogger().warning(sender+" used weak password");}}
+                return true;}
         }
         Bukkit.getScheduler().runTaskAsynchronously(CatSeedLogin.getInstance(), () -> {
             LoginPlayer lp = Cache.getIgnoreCase(name);

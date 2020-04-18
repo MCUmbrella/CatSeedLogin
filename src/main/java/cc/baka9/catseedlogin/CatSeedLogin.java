@@ -52,6 +52,11 @@ public class CatSeedLogin extends JavaPlugin {
 
         getServer().getPluginCommand("adminsetpassword").setExecutor(new CommandAdminSetPassword());
 
+        getServer().getPluginCommand("unregister").setExecutor(new CommandUnregister());
+        getServer().getPluginCommand("unregister").setTabCompleter((commandSender, command, s, args)
+                -> args.length == 1 ? Collections.singletonList(unregUsage) : new ArrayList<>(0));
+
+
         PluginCommand bindemail = getServer().getPluginCommand("bindemail");
         bindemail.setExecutor(new CommandBindEmail());
         bindemail.setTabCompleter((commandSender, command, s, args) -> {

@@ -65,13 +65,19 @@ public class Config {
                 ex.printStackTrace();
             }
             FileConfiguration config = getConfig("settings.yml");
+            if(config.getInt("cfgVersion")!=1){CatSeedLogin.instance.getLogger().warning("\n[!]WARNING=================================================\n" +
+                    "  You are using an invalid version of config file!\n" +
+                    "  Some settings may not work correctly!\n" +
+                    "  You are using settings version ["+config.getInt("cfgVersion")+"]\n" +
+                    "  but this version of CatSeedLogin requires version ["+1+"].\n" +
+                    "===========================================================");}
             IpCountLimit = config.getInt("maxLogPerIP", 1);
             if(lvnameinited){spawnWorld = config.getString("spawnWorld", lvname);}else {spawnWorld = config.getString("spawnWorld", "world");}
             LimitChineseID = config.getBoolean("specialSymbolsIDLimit", true);
             MinLengthID = config.getInt("IDMinLength", 3);
             MaxLengthID = config.getInt("IDMaxLength", 16);
             BeforeLoginNoDamage = config.getBoolean("noDamageBeforeLogin", true);
-            ReenterInterval = config.getLong("loginTimeout", 60);
+            ReenterInterval = config.getLong("loginInterval", 5);
             AfterLoginBack = config.getBoolean("backAfterLogin", true);
             language=config.getString("languageFile", "lang_zhCN.yml");
             debug=config.getBoolean("debug", false);

@@ -1,10 +1,11 @@
+cfgVersion: 1 #Don't change it manually!
 maxLogPerIP: 1
 spawnWorld: "world"
 specialSymbolsIDLimit: true
 IDMinLength: 3
 IDMaxLength: 16
 noDamageBeforeLogin: true
-loginTimeout: 60
+loginInterval: 100 #In ticks(1/20 seconds)
 backAfterLogin: true
 languageFile: "lang_zhCN.yml"
 debug: false

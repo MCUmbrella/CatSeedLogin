@@ -1,3 +1,4 @@
+version: 1
 # Main
 db-error: "§cError when loading database"
 login-usage: "<password>"
@@ -18,12 +19,13 @@ db-cache-loaded-end: " data in DB"
 db-cache-error: "Cannot update cache because of database error"
 internalError: "§cInternal server error"
 reloaded: "Configuration reloaded"
+playerOnly: "This command is player-only!"
 # Before join
 stillStart: "Server is still starting"
 caseSensitive-front: "Please use this name: "
 caseSentitive-end: "to join again"
 playeronline-front: "Player "
-playeronline-end: " already online!"
+playeronline-end: " already logged in!\nPlease try again later!"
 maxLoginIP: "Your IP reached max joins per IP limit"
 IDSpecialSymbolLimit: "Player name can only include A~Z, a~z, 0~9, _"
 minIDLengthLimit-front: "Your name length must more than"
@@ -89,3 +91,6 @@ resetSuccess: "§aPassword reset success"
 resetCodeSent-front: "§6Email sent to "
 resetCodeSent-end: ". Please check spam Email folder if Email not recived"
 reset-timeoutOrNotSet: "§cNo pending operations or verification code expired\n§6You can reset password by typing '/resetpassword forget'"
+# Unregistration
+unregSuccess: "§aUnregistered!"
+unregUsage: "<current password> <password again>"

@@ -1,3 +1,4 @@
+version: 1
 # Main
 db-error: "§c加载数据库时出错"
 login-usage: "密码"
@@ -18,12 +19,13 @@ db-cache-loaded-end: " 个数据"
 db-cache-error: "数据库错误,无法更新缓存!"
 internalError: "§c服务器内部错误!"
 reloaded: "配置已重载!"
+playerOnly: "This command is player-only!"
 # Before join
 stillStart: "服务器还在初始化"
 caseSensitive-front: "游戏名字母大小写不匹配,请使用游戏名: "
 caseSentitive-end: "重新尝试登录"
 playeronline-front: "玩家 "
-playeronline-end: " 已经在线了!"
+playeronline-end: " 已经登录了!\n请稍后再试！"
 maxLoginIP: "太多相同ip的账号同时在线!"
 IDSpecialSymbolLimit: "游戏名只能由数字/字母/下划线组成"
 minIDLengthLimit-front: "你的游戏名太短了,至少需要 "
@@ -89,3 +91,6 @@ resetSuccess: "§a密码已重置"
 resetCodeSent-front: "§6已经向邮箱 "
 resetCodeSent-end: " 发送了一串重置验证码，请检查你的邮箱的收件箱。\n§c如果未收到，请检查邮箱的垃圾箱!"
 reset-timeoutOrNotSet: "§c你没有待重置密码的请求操作，或者验证码已过期\n§6如果忘记密码需要重置密码请输入/resetpassword forget"
+# Unregistration
+unregSuccess: "§a销户成功！"
+unregUsage: "当前密码 重复密码"

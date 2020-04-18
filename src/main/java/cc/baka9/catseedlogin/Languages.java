@@ -27,6 +27,7 @@ public class Languages {
     public static String db_cache_error="";
     public static String internalError="";
     public static String reloaded="";
+    public static String playerOnly="";
     //LANG BEFORELOGIN
     public static String stillStart="";
     public static String caseSensitiveFront="";
@@ -98,10 +99,19 @@ public class Languages {
     public static String resetCodeSent_front="";
     public static String resetCodeSent_end="";
     public static String reset_timeoutOrNotSet="";
+    //UNREG
+    public static String unregSuccess="";
+    public static String unregUsage="";
     //LANG END
     public static void load()
     {
         FileConfiguration lang = getConfig(language);
+        if(lang.getInt("version")!=1){CatSeedLogin.instance.getLogger().warning("\n[!]WARNING=================================================\n" +
+                "  You are using an invalid version of language file!\n" +
+                "  Some translations may not be displayed correctly!\n" +
+                "  You are using version ["+lang.getInt("version")+"]\n" +
+                "  but this version of CatSeedLogin requires version ["+1+"].\n" +
+                "===========================================================");}
         db_error = lang.getString("db-error");
         login_usage = lang.getString("login-usage");
         reg_usage = lang.getString("reg-usage");
@@ -121,6 +131,7 @@ public class Languages {
         db_cache_error = lang.getString("db-cache-error");
         internalError = lang.getString("internalError");
         reload = lang.getString("reloaded");
+        playerOnly = lang.getString("playerOnly");
         stillStart = lang.getString("stillStart");
         caseSensitiveFront = lang.getString("caseSensitive-front");
         caseSensitiveEnd= lang.getString("caseSensitive-end");
@@ -184,7 +195,8 @@ public class Languages {
         resetCodeSent_front = lang.getString("resetCodeSent-front");
         resetCodeSent_end = lang.getString("resetCodeSent-end");
         reset_timeoutOrNotSet = lang.getString("reset-timeoutOrNotSet");
-
+        unregSuccess = lang.getString("unregSuccess");
+        unregUsage = lang.getString("unregUsage");
 
         if(debug){CatSeedLogin.instance.getLogger().info("Language files loaded.");}
     }

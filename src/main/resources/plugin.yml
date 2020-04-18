@@ -40,3 +40,7 @@ commands:
     usage: /<command> reload 重载配置文件
     aliases: [cslogin]
     permission: catseedlogin.command.catseedlogin
+  unregister:
+    description: 销户
+    usage: /<command> 当前密码 重复密码
+    aliases: [unreg]

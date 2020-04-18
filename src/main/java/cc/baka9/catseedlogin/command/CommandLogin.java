@@ -11,6 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import static cc.baka9.catseedlogin.Config.Settings.debug;
@@ -21,6 +22,7 @@ public class CommandLogin implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String lable, String[] args){
         if (args.length == 0 || !(sender instanceof Player)) return false;
+        if(sender instanceof ConsoleCommandSender){CatSeedLogin.instance.getLogger().warning(playerOnly);return false;}
         Player player = (Player) sender;
         String name = player.getName();
         if (LoginPlayerHelper.isLogin(name)) {
