@@ -115,7 +115,7 @@ CatSeedPlayerRegisterEvent
 CatSeedLoginAPI
 ### 登录玩家管理
 ## 联系
-[CatSeedLogin官方QQ交流群839815243](http://shang.qq.com/wpa/qunwpa?idkey=91199801a9406f659c7add6fb87b03ca071b199b36687c62a3ac51bec2f258a3)
+[CatSeedLogin官方QQ交流群839815243](http://shang.qq.com/wpa/qunwpa?idkey=91199801a9406f659c7add6fb87b03ca071b199b36687c62a3ac51bec2f258a3)<br/>
 [MCUmbrella的Discord交流群](https://discord.gg/45W6rVr)
 ### CatSeed:
 - QQ: 763737569
