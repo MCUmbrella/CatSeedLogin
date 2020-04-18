@@ -5,16 +5,16 @@ crazylogin在高版本有各种匪夷所思的bug（总之我是被crazylogin从
 authme配置文件对一些经验不足的服主配置起来极其麻烦，甚至有人从入门到弃坑
 有人测试1.7.10 和 1.11版本的服务器可以用 理论上应该支持1.7 ~ 1.15 一般都是低版本向上兼容。
 ## 基础功能:
-*  注册 登录 修改密码 管理员设置密码
+*  注册 登录 修改密码 管理员设置密码 销户
 *  防止英文id大小写登录bug
 *  防止玩家登录之后,被别人顶下线
-*  下线之后 “可配置” 秒内不能重新进入服务器（防止某些bug）
+*  下线之后指定时间内不能重新进入服务器（防止某些bug）
 *  没有登录之前禁止移动,交互,攻击,发言,使用指令,传送,点击背包物品,丢弃物品,拾取物品
 *  禁止同ip的帐号同时在线数量超过可配置数量
 *  登录之前在配置文件指定的世界出生点,登录之后自动返回下线地点（可配置取消）
 *  储存默认使用的是SQLite（也支持Mysql，需要配置文件sql.yml中配置打开）
 *  密码加密储存,Crypt默认加密方式
-*  进入游戏时游戏名的限制（由数字,字母和下划线组成 “可配置”长度的游戏名才能进入）
+*  进入游戏时游戏名的限制（游戏名长度在指定范围内才能进入，游戏名是否只能包含英文字母、数字、下划线）
 *  绑定邮箱，邮箱重置密码功能
 ## 下载
 * 原版：https://www.mcbbs.net/thread-847859-1-1.html
@@ -46,6 +46,9 @@ authme配置文件对一些经验不足的服主配置起来极其麻烦，甚�
 ### 用邮箱收到的验证码重置密码
 * /bindemail re 验证码 新密码
 * /bdmail re 验证码 新密码
+### 销户（清除注册信息）
+* /unregister 当前密码 重复密码
+* /unreg 当前密码 重复密码
 ### 管理员重载配置文件
 * /catseedlogin reload
 * /cslogin reload
@@ -58,7 +61,9 @@ authme配置文件对一些经验不足的服主配置起来极其麻烦，甚�
 用于存储玩家数据，不建议手动更改<br/>
 ### settings.yml
 ### 本分支的settings.yml与CatSeed原版的不兼容，请删除旧settings.yml后重新生成
-> \#相同ip限制<br/>
+> \#配置文件版本，正常情况不要更改<br/>
+cfgVersion: 1<br/>
+\#相同ip限制<br/>
 maxLogPerIP: 1<br/>
 \#登录时在哪个世界的出生点<br/>
 spawnWorld: "world"<br/>
@@ -70,11 +75,11 @@ IDMinLength: 3<br/>
 IDMaxLength: 16<br/>
 \#登陆之前不受到伤害<br/>
 noDamageBeforeLogin: true<br/>
-\#离开服务器重新进入的间隔限制 单位：tick（如果设置3秒则是60）<br/>
-loginTimeout: 60<br/>
+\#已登录玩家离开服务器重新进入的间隔限制 单位：tick（如果设置3秒则是60）<br/>
+loginInterval: 60<br/>
 \#登陆之后是否返回退出地点<br/>
 backAfterLogin: true<br/>
-\#语言文件——内置lang_zhCN.yml（简体中文）和lang_enUS.yml（美国英语）<br/>
+\#语言文件，内置lang_zhCN.yml（简体中文）和lang_enUS.yml（美国英语）<br/>
 languageFile: "lang_zhCN.yml"<br/>
 \#调试选项，在控制台输出更多信息<br/>
 debug: false<br/>
@@ -110,4 +115,13 @@ CatSeedPlayerRegisterEvent
 CatSeedLoginAPI
 ### 登录玩家管理
 ## 联系
-[点击进入 QQ交流群839815243](http://shang.qq.com/wpa/qunwpa?idkey=91199801a9406f659c7add6fb87b03ca071b199b36687c62a3ac51bec2f258a3)
+[CatSeedLogin官方QQ交流群839815243](http://shang.qq.com/wpa/qunwpa?idkey=91199801a9406f659c7add6fb87b03ca071b199b36687c62a3ac51bec2f258a3)
+[MCUmbrella的Discord交流群](https://discord.gg/45W6rVr)
+### CatSeed:
+- QQ: 763737569
+- Email: 763737569@qq.com
+- Twitter: @ClassCatSeed
+### MCUmbrella
+- QQ: 1660030319
+- Email: mcumbrella@qq.com
+- Twitter: @MCUmbrella
